@@ -1,0 +1,5 @@
+name,speed,coverage,happiness,salary
+speed training,1.25,1,1,1.25
+coverage training,1,1.25,1,1.25
+happiness training,1,1,1.25,1.25
+nothing,1,1,1,1
