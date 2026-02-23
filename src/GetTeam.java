@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class handsome_boy {
+public class GetTeam {
 
     public static ArrayList<Employee> all = new ArrayList<>();
 
@@ -38,10 +38,10 @@ public class handsome_boy {
     }
 
     private static void build(int index,
-                              ArrayList<Employee>[] groups,
-                              ArrayList<Employee> current,
-                              int cost, int cov, int spd, int ful,
-                              int budget) {
+                            ArrayList<Employee>[] groups,
+                            ArrayList<Employee> current,
+                            int cost, int cov, int spd, int ful,
+                            int budget) {
 
         if (index == titles.length) {
             if (cost <= budget) {
