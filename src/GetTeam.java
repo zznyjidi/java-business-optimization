@@ -19,34 +19,38 @@ public class GetTeam {
     };
 
     static Team best = null;
+
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int budget = sc.nextInt();
-        ArrayList<Employee>[] groups = groupByTitle(all);
-        //try all
-        build(0, groups, new ArrayList<Employee>(), 0, 0, 0, 0, budget);
-        if (best == null) {
-            System.out.println("Not enough budget");
-            return;
+        try (Scanner sc = new Scanner(System.in)) {
+            int budget = sc.nextInt();
+
+            ArrayList<Employee>[] groups = groupByTitle(all);
+            // try all
+            build(0, groups, new ArrayList<>(), 0, 0, 0, 0, budget);
+            if (best == null) {
+                System.out.println("Not enough budget");
+                return;
+            }
+            System.out.println("Best team:");
+            for (Employee p : best.people) {
+                System.out.println(p.getName() + " | " + p.getJobTitle() + " | $" + p.getSalary());
+            }
+            System.out.println("Cost=" + best.cost + " Coverage=" + best.coverage
+                    + " Speed=" + best.speed + " Fulfilment=" + best.fulfilment);
         }
-        System.out.println("Best team:");
-        for (Employee p : best.people) {
-            System.out.println(p.getName() + " | " + p.getJobTitle() + " | $" + p.getSalary());
-        }
-        System.out.println("Cost=" + best.cost + " Coverage=" + best.coverage
-                + " Speed=" + best.speed + " Fulfilment=" + best.fulfilment);
     }
 
     private static void build(int index,
-                            ArrayList<Employee>[] groups,
-                            ArrayList<Employee> current,
-                            int cost, int cov, int spd, int ful,
-                            int budget) {
+            ArrayList<Employee>[] groups,
+            ArrayList<Employee> current,
+            int cost, int cov, int spd, int ful,
+            int budget) {
 
         if (index == titles.length) {
             if (cost <= budget) {
                 Team now = new Team(current, cost, cov, spd, ful);
-                if (best == null || now.betterThan(best)) best = now;
+                if (best == null || now.betterThan(best))
+                    best = now;
             }
             return;
         }
@@ -64,10 +68,12 @@ public class GetTeam {
             current.remove(current.size() - 1);
         }
     }
+
     private static ArrayList<Employee>[] groupByTitle(ArrayList<Employee> allPeople) {
         @SuppressWarnings("unchecked")
         ArrayList<Employee>[] groups = new ArrayList[titles.length];
-        for (int i = 0; i < titles.length; i++) groups[i] = new ArrayList<>();
+        for (int i = 0; i < titles.length; i++)
+            groups[i] = new ArrayList<>();
 
         for (Employee person : allPeople) {
             for (int i = 0; i < titles.length; i++) {
@@ -80,10 +86,11 @@ public class GetTeam {
         return groups;
     }
 
-    //coverage>speed>fullfilment
+    // coverage>speed>fullfilment
     static class Team {
         ArrayList<Employee> people;
         int cost, coverage, speed, fulfilment;
+
         Team(ArrayList<Employee> people, int cost, int coverage, int speed, int fulfilment) {
             this.people = new ArrayList<>(people);
             this.cost = cost;
@@ -93,33 +100,46 @@ public class GetTeam {
         }
 
         private int stage() {
-            if (coverage < 100) return 0;
-            if (speed < 100) return 1;
+            if (coverage < 100)
+                return 0;
+            if (speed < 100)
+                return 1;
             return 2;
         }
+
         boolean betterThan(Team other) {
             int s1 = this.stage();
             int s2 = other.stage();
-            if (s1 != s2) return s1 > s2;
-            //coverage
+            if (s1 != s2)
+                return s1 > s2;
+            // coverage
             if (s1 == 0) {
-                if (coverage != other.coverage) return coverage > other.coverage;
-                if (speed != other.speed) return speed > other.speed;
-                if (fulfilment != other.fulfilment) return fulfilment > other.fulfilment;
+                if (coverage != other.coverage)
+                    return coverage > other.coverage;
+                if (speed != other.speed)
+                    return speed > other.speed;
+                if (fulfilment != other.fulfilment)
+                    return fulfilment > other.fulfilment;
                 return cost < other.cost;
             }
-            //speed
+            // speed
             if (s1 == 1) {
-                if (speed != other.speed) return speed > other.speed;
-                if (coverage != other.coverage) return coverage > other.coverage;
-                if (fulfilment != other.fulfilment) return fulfilment > other.fulfilment;
+                if (speed != other.speed)
+                    return speed > other.speed;
+                if (coverage != other.coverage)
+                    return coverage > other.coverage;
+                if (fulfilment != other.fulfilment)
+                    return fulfilment > other.fulfilment;
                 return cost < other.cost;
             }
 
-            //fullfilment
-            if (fulfilment != other.fulfilment) return fulfilment > other.fulfilment;
-            if (speed != other.speed) return speed > other.speed;
-            if (coverage != other.coverage) return coverage > other.coverage;
+            // fullfilment
+            if (fulfilment != other.fulfilment)
+                return fulfilment > other.fulfilment;
+            if (speed != other.speed)
+                return speed > other.speed;
+            if (coverage != other.coverage)
+                return coverage > other.coverage;
             return cost < other.cost;
         }
     }
