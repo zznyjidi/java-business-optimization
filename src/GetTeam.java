@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class GetTeam {
 
@@ -23,14 +25,23 @@ public class GetTeam {
     public static void main(String[] args) {
         try (Scanner sc = new Scanner(System.in)) {
             int budget = sc.nextInt();
+            try {
+                all.addAll(ReadFile.readEmployeeFile(new File("people.csv")));
+            } catch (FileNotFoundException e) {
+                System.out.println("not found");
+                return;
+            }
 
             ArrayList<Employee>[] groups = groupByTitle(all);
+
             // try all
             build(0, groups, new ArrayList<>(), 0, 0, 0, 0, budget);
+
             if (best == null) {
                 System.out.println("Not enough budget");
                 return;
             }
+
             System.out.println("Best team:");
             for (Employee p : best.people) {
                 System.out.println(p.getName() + " | " + p.getJobTitle() + " | $" + p.getSalary());
@@ -86,7 +97,6 @@ public class GetTeam {
         return groups;
     }
 
-    // coverage>speed>fullfilment
     static class Team {
         ArrayList<Employee> people;
         int cost, coverage, speed, fulfilment;
@@ -112,34 +122,24 @@ public class GetTeam {
             int s2 = other.stage();
             if (s1 != s2)
                 return s1 > s2;
-            // coverage
+
             if (s1 == 0) {
-                if (coverage != other.coverage)
-                    return coverage > other.coverage;
-                if (speed != other.speed)
-                    return speed > other.speed;
-                if (fulfilment != other.fulfilment)
-                    return fulfilment > other.fulfilment;
-                return cost < other.cost;
-            }
-            // speed
-            if (s1 == 1) {
-                if (speed != other.speed)
-                    return speed > other.speed;
-                if (coverage != other.coverage)
-                    return coverage > other.coverage;
-                if (fulfilment != other.fulfilment)
-                    return fulfilment > other.fulfilment;
+                if (coverage != other.coverage) return coverage > other.coverage;
+                if (speed != other.speed) return speed > other.speed;
+                if (fulfilment != other.fulfilment) return fulfilment > other.fulfilment;
                 return cost < other.cost;
             }
 
-            // fullfilment
-            if (fulfilment != other.fulfilment)
-                return fulfilment > other.fulfilment;
-            if (speed != other.speed)
-                return speed > other.speed;
-            if (coverage != other.coverage)
-                return coverage > other.coverage;
+            if (s1 == 1) {
+                if (speed != other.speed) return speed > other.speed;
+                if (coverage != other.coverage) return coverage > other.coverage;
+                if (fulfilment != other.fulfilment) return fulfilment > other.fulfilment;
+                return cost < other.cost;
+            }
+
+            if (fulfilment != other.fulfilment) return fulfilment > other.fulfilment;
+            if (speed != other.speed) return speed > other.speed;
+            if (coverage != other.coverage) return coverage > other.coverage;
             return cost < other.cost;
         }
     }
