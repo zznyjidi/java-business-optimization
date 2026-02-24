@@ -3,12 +3,14 @@ public class Modifier {
     double speed;
     double coverage;
     double happiness; 
+    double salary;
 
-    public Modifier(double coverage, double happiness, String name, double speed) {
+    public Modifier(String name, double speed, double coverage, double happiness, double salary) {
         this.coverage = coverage;
         this.happiness = happiness;
-        this.name = name;
+        this.salary = salary;
         this.speed = speed;
+        this.name = name;
     }
 
     public String getName() {
@@ -25,5 +27,9 @@ public class Modifier {
 
     public double getHappiness() {
         return happiness;
+    }
+
+    public double getSalary(){
+        return salary;
     }
 }
