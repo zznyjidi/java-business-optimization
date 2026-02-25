@@ -67,24 +67,4 @@ public class Employee {
         sb.append('}');
         return sb.toString();
     }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public void setCoverage(int coverage) {
-        this.coverage = coverage;
-    }
-
-    public void setFulfilment(int fulfilment) {
-        this.fulfilment = fulfilment;
-    }
-
-    public void setSalary(int salary) {
-        this.salary = salary;
-    }
-
-    public void Train() {
-
-    }
 }
