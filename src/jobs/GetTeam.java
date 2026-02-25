@@ -1,3 +1,5 @@
+package jobs;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
@@ -8,16 +10,16 @@ public class GetTeam {
     public static ArrayList<Employee> all = new ArrayList<>();
 
     static String[] titles = {
-            "Software Engineer",
-            "Marketing Manager",
-            "Sales Representative",
-            "Graphic Designer",
-            "Financial Analyst",
-            "HR Manager",
-            "Operations Manager",
-            "Data Scientist",
-            "Customer Support Specialist",
-            "Project Manager"
+            "SoftwareEngineer",
+            "MarketingManager",
+            "SalesRepresentative",
+            "GraphicDesigner",
+            "FinancialAnalyst",
+            "HRManager",
+            "OperationsManager",
+            "DataScientist",
+            "CustomerSupportSpecialist",
+            "ProjectManager"
     };
 
     static Team best = null;
@@ -124,22 +126,31 @@ public class GetTeam {
                 return s1 > s2;
 
             if (s1 == 0) {
-                if (coverage != other.coverage) return coverage > other.coverage;
-                if (speed != other.speed) return speed > other.speed;
-                if (fulfilment != other.fulfilment) return fulfilment > other.fulfilment;
+                if (coverage != other.coverage)
+                    return coverage > other.coverage;
+                if (speed != other.speed)
+                    return speed > other.speed;
+                if (fulfilment != other.fulfilment)
+                    return fulfilment > other.fulfilment;
                 return cost < other.cost;
             }
 
             if (s1 == 1) {
-                if (speed != other.speed) return speed > other.speed;
-                if (coverage != other.coverage) return coverage > other.coverage;
-                if (fulfilment != other.fulfilment) return fulfilment > other.fulfilment;
+                if (speed != other.speed)
+                    return speed > other.speed;
+                if (coverage != other.coverage)
+                    return coverage > other.coverage;
+                if (fulfilment != other.fulfilment)
+                    return fulfilment > other.fulfilment;
                 return cost < other.cost;
             }
 
-            if (fulfilment != other.fulfilment) return fulfilment > other.fulfilment;
-            if (speed != other.speed) return speed > other.speed;
-            if (coverage != other.coverage) return coverage > other.coverage;
+            if (fulfilment != other.fulfilment)
+                return fulfilment > other.fulfilment;
+            if (speed != other.speed)
+                return speed > other.speed;
+            if (coverage != other.coverage)
+                return coverage > other.coverage;
             return cost < other.cost;
         }
     }
