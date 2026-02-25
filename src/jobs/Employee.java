@@ -1,26 +1,41 @@
+package jobs;
+
 public class Employee {
     String name;
-    String jobtitle;
+    Title jobTitle;
     int speed;
     int coverage;
     int fulfilment;
     int salary;
 
-    public Employee(String name, String jobtitle, int speed, int coverage, int fulfilment, int salary) {
+    public Employee(String name, String jobTitle, int speed, int coverage, int fulfilment, int salary) {
         this.name = name;
-        this.jobtitle = jobtitle;
         this.speed = speed;
         this.coverage = coverage;
         this.fulfilment = fulfilment;
         this.salary = salary;
+
+        this.jobTitle = switch (jobTitle) {
+            case "Software Engineer" -> Title.SoftwareEngineer;
+            case "Marketing Manager" -> Title.MarketingManager;
+            case "Sales Representative" -> Title.SalesRepresentative;
+            case "Graphic Designer" -> Title.GraphicDesigner;
+            case "Financial Analyst" -> Title.FinancialAnalyst;
+            case "HR Manager" -> Title.HRManager;
+            case "Operations Manager" -> Title.OperationsManager;
+            case "Data Scientist" -> Title.DataScientist;
+            case "Customer Support Specialist" -> Title.CustomerSupportSpecialist;
+            case "Project Manager" -> Title.ProjectManager;
+            default -> throw new IllegalArgumentException(jobTitle);
+        };
     }
 
     public String getName() {
         return name;
     }
 
-    public String getJobTitle() {
-        return jobtitle;
+    public Title getJobTitle() {
+        return jobTitle;
     }
 
     public int getSpeed() {
@@ -44,7 +59,7 @@ public class Employee {
         StringBuilder sb = new StringBuilder();
         sb.append("Employee{");
         sb.append("name=").append(name);
-        sb.append(", jobtitle=").append(jobtitle);
+        sb.append(", jobTitle=").append(jobTitle);
         sb.append(", speed=").append(speed);
         sb.append(", coverage=").append(coverage);
         sb.append(", fulfilment=").append(fulfilment);
@@ -69,7 +84,7 @@ public class Employee {
         this.salary = salary;
     }
 
-    public void Train(){
-        
+    public void Train() {
+
     }
 }
