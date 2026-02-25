@@ -27,50 +27,51 @@ public class TeamBuilder {
         if (node.currentBudgetLeft < 1)
             return -1;
 
-        if (titles.length < 1)
-            return -1;
-        Title[] nextTitles = Arrays.copyOfRange(titles, 1, titles.length);
+        // Title Array for next layer of tree
+        Title[] nextTitles = null;
+        if (titles.length > 1)
+            nextTitles = Arrays.copyOfRange(titles, 1, titles.length);
 
         // Build tree
         List<Integer> result = new ArrayList<>();
         for (Employee employee : employeeMap.get(titles[0])) {
             // Check if has enough budget
             if (node.currentBudgetLeft >= employee.salary) {
-                // Check this node
+                // Create node for valid branch in next layer
                 EmployeeTreeNode newNode = new EmployeeTreeNode(employee, (node.currentBudgetLeft - employee.salary));
                 node.subNodes.add(newNode);
-                // Check if has next layer
-                if (titles.length > 0)
+                // Check if next layer is the last layer
+                if (titles.length > 1)
                     result.add(buildTree(nextTitles, newNode));
-                else
+                else {
                     newNode.isLastLayer = true;
+                    newNode.lowestBudget = employee.salary;
+                    result.add(newNode.lowestBudget);
+                }
             }
         }
 
-        if (titles.length > 0) {
-            // Find min valid budget & max budget
-            int min = Integer.MAX_VALUE;
-            int max = -1;
-            for (int budget : result) {
-                if (budget > max)
-                    max = budget;
-                if (budget < min && budget > 0)
-                    min = budget;
+        // Find min valid cost
+        boolean hasValid = false;
+        int min = Integer.MAX_VALUE;
+        for (int cost : result) {
+            if (cost > 0) {
+                hasValid = true;
+                if (cost < min)
+                    min = cost;
             }
-
-            if (node.employee != null)
-                node.lowestBudget = node.employee.salary + min;
-
-            // Check if is dead end
-            if (max == -1) {
-                node.isDeadEnd = true;
-                return -1;
-            }
-            return min;
-        } else {
-            node.lowestBudget = node.employee.salary;
-            return node.lowestBudget;
         }
+
+        // Calculate lowest budget in branches
+        if (node.employee != null)
+            node.lowestBudget = node.employee.salary + min;
+
+        // Check if is dead end
+        if (!hasValid) {
+            node.isDeadEnd = true;
+            return -1;
+        }
+        return min;
     }
 
     public int buildTree() {

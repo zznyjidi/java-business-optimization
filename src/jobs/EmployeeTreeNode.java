@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeTreeNode {
-    Title jobTitle;
     Employee employee;
 
     int lowestBudget;
@@ -16,7 +15,6 @@ public class EmployeeTreeNode {
 
     public EmployeeTreeNode(Employee employee, int currentBudgetLeft) {
         this.employee = employee;
-        this.jobTitle = employee.jobTitle;
         this.currentBudgetLeft = currentBudgetLeft;
     }
 
