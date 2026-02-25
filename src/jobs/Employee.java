@@ -57,13 +57,13 @@ public class Employee {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Employee{");
-        sb.append("name=").append(name);
-        sb.append(", jobTitle=").append(jobTitle);
-        sb.append(", speed=").append(speed);
-        sb.append(", coverage=").append(coverage);
-        sb.append(", fulfilment=").append(fulfilment);
-        sb.append(", salary=").append(salary);
+        sb.append("{");
+        sb.append("name:").append(name);
+        sb.append(", jobTitle:").append(jobTitle);
+        sb.append(", speed:").append(speed);
+        sb.append(", coverage:").append(coverage);
+        sb.append(", fulfilment:").append(fulfilment);
+        sb.append(", salary:").append(salary);
         sb.append('}');
         return sb.toString();
     }

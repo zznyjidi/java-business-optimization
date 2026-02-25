@@ -24,4 +24,9 @@ public class EmployeeTreeNode {
         this.subNodes = subNodes;
         this.currentBudgetLeft = currentBudgetLeft;
     }
+
+    @Override
+    public String toString() {
+        return "{employee:" + employee + ", isDeadEnd:" + isDeadEnd + ", subNodes:" + subNodes + "}";
+    }
 }
