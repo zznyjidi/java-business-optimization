@@ -29,6 +29,7 @@ public class ReadFile {
 
     public List<Modifier> readTrainFile(File file) throws FileNotFoundException{
         List<Modifier> modifiers = new ArrayList<>();
+
         try (Scanner trainEmployee = new Scanner(file)){
             trainEmployee.nextLine();
 
@@ -39,8 +40,7 @@ public class ReadFile {
                     Double.parseDouble(trainEmployee.next()),
                     Double.parseDouble(trainEmployee.next()),
                     Double.parseDouble(trainEmployee.next()),
-                    Double.parseDouble(trainEmployee.next())
-                ));
+                    Double.parseDouble(trainEmployee.next())));
         }
         return modifiers;
     }
