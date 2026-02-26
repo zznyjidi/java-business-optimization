@@ -67,4 +67,13 @@ public class Employee {
         sb.append('}');
         return sb.toString();
     }
+
+    public boolean isCompletelyWorse(Employee other) {
+        return this != other
+                && this.jobTitle.equals(other.getJobTitle())
+                && this.salary > other.salary
+                && this.speed <= other.speed
+                && this.coverage <= other.coverage
+                && this.fulfilment <= other.fulfilment;
+    }
 }
