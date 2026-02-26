@@ -1,3 +1,5 @@
+package jobs;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -25,23 +27,5 @@ public class ReadFile {
         }
 
         return employees;
-    }
-
-    public List<Modifier> readTrainFile(File file) throws FileNotFoundException{
-        List<Modifier> modifiers = new ArrayList<>();
-
-        try (Scanner trainEmployee = new Scanner(file)){
-            trainEmployee.nextLine();
-
-            trainEmployee.useDelimiter(CSV_DELIMITER);
-            while (trainEmployee.hasNextLine())
-                modifiers.add(new Modifier(
-                    trainEmployee.next(),
-                    Double.parseDouble(trainEmployee.next()),
-                    Double.parseDouble(trainEmployee.next()),
-                    Double.parseDouble(trainEmployee.next()),
-                    Double.parseDouble(trainEmployee.next())));
-        }
-        return modifiers;
     }
 }
