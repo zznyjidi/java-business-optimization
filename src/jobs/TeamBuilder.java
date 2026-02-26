@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import filters.EmployeeFilter;
+
 public class TeamBuilder {
     Map<Title, List<Employee>> employeeMap = new HashMap<>();
     int budget = 0;
@@ -20,6 +22,10 @@ public class TeamBuilder {
         for (Employee employee : employees)
             if (employee.getSalary() < budget)
                 employeeMap.get(employee.jobTitle).add(employee);
+    }
+
+    public void applyFilter(EmployeeFilter filter) {
+        employeeMap = filter.filterEmployee(employeeMap);
     }
 
     public int buildTree(Title[] titles, EmployeeTreeNode node) {
