@@ -3,8 +3,12 @@ package score;
 import employee.Employee;
 
 public class Score {
-    public static int SPEED_MULTIPLIER = 10000;
-    public static int COVERAGE_MULTIPLIER = SPEED_MULTIPLIER * 100;
+    public static int COVERAGE_CAP = 100;
+    public static int SPEED_CAP = 100;
+    public static int FULFILMENT_CAP = 10000;
+
+    public static int SPEED_MULTIPLIER = FULFILMENT_CAP;
+    public static int COVERAGE_MULTIPLIER = SPEED_MULTIPLIER * SPEED_CAP;
 
     int coverage = 0;
     int speed = 0;
@@ -36,7 +40,7 @@ public class Score {
     }
 
     public int getScore() {
-        return fulfilment
+        return (fulfilment - 1)
                 + ((speed - 1) * SPEED_MULTIPLIER)
                 + ((coverage - 1) * COVERAGE_MULTIPLIER);
     }
@@ -48,7 +52,7 @@ public class Score {
         remainder = score % COVERAGE_MULTIPLIER;
 
         int speed = (remainder / SPEED_MULTIPLIER) + 1;
-        remainder = remainder % SPEED_MULTIPLIER;
+        remainder = (remainder % SPEED_MULTIPLIER) + 1;
 
         return new Score(coverage, speed, remainder);
     }
