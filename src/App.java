@@ -5,11 +5,10 @@ import java.util.List;
 import employee.Employee;
 import employee.ReadFile;
 import filters.FilterReplacements;
-import jobs.NotEnoughBudgetException;
 import jobs.TeamBuilder;
 
 public class App {
-    public static void main(String[] args) throws FileNotFoundException, NotEnoughBudgetException {
+    public static void main(String[] args) throws FileNotFoundException {
         List<Employee> employees = ReadFile.readEmployeeFile(new File("people.csv"));
         TeamBuilder builder = new TeamBuilder(employees, 1000000);
         builder.applyFilter(new FilterReplacements());

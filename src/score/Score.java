@@ -13,27 +13,30 @@ public class Score {
     int coverage = 0;
     int speed = 0;
     int fulfilment = 0;
+    int budget = 0;
 
     public Score() {
     }
 
-    public Score(int coverage, int speed, int fulfilment) {
+    public Score(int coverage, int speed, int fulfilment, int budget) {
         this.coverage = coverage;
         this.speed = speed;
         this.fulfilment = fulfilment;
+        this.budget = budget;
         ensureScore();
     }
 
-    public Score addScore(int coverage, int speed, int fulfilment) {
+    public Score addScore(int coverage, int speed, int fulfilment, int budget) {
         this.coverage += coverage;
         this.speed += speed;
         this.fulfilment += fulfilment;
+        this.budget += budget;
         ensureScore();
         return this;
     }
 
     public Score addScore(Employee employee) {
-        return addScore(employee.getCoverage(), employee.getSpeed(), employee.getFulfilment());
+        return addScore(employee.getCoverage(), employee.getSpeed(), employee.getFulfilment(), employee.getSalary());
     }
 
     public void ensureScore() {
@@ -49,7 +52,7 @@ public class Score {
                 + ((coverage - 1) * COVERAGE_MULTIPLIER);
     }
 
-    public static Score fromScore(int score) {
+    public static Score fromScore(int score, int budget) {
         int remainder;
 
         int coverage = (score / COVERAGE_MULTIPLIER) + 1;
@@ -58,23 +61,26 @@ public class Score {
         int speed = (remainder / SPEED_MULTIPLIER) + 1;
         remainder = (remainder % SPEED_MULTIPLIER) + 1;
 
-        return new Score(coverage, speed, remainder);
+        return new Score(coverage, speed, remainder, budget);
     }
 
     public Score copy() {
-        return new Score(coverage, speed, fulfilment);
+        return new Score(coverage, speed, fulfilment, budget);
     }
 
     public boolean isBetter(Score other) {
-        return getScore() > other.getScore();
+        if (getScore() != other.getScore())
+            return getScore() > other.getScore();
+        return budget < other.budget;
     }
 
     public boolean isZero() {
-        return (coverage == 0) && (speed == 0) && (fulfilment == 0);
+        return (coverage == 0) && (speed == 0) && (fulfilment == 0) && (budget == 0);
     }
 
     @Override
     public String toString() {
-        return "Score [coverage=" + coverage + ", speed=" + speed + ", fulfilment=" + fulfilment + "]";
+        return "Score [coverage=" + coverage + ", speed=" + speed + ", fulfilment=" + fulfilment + ", budget=" + budget
+                + "]";
     }
 }

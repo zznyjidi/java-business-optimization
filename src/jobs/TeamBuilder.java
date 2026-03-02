@@ -29,11 +29,10 @@ public class TeamBuilder {
         employeeMap = filter.filterEmployee(employeeMap);
     }
 
-    public Score buildTree(Title[] titles, int budgetLeft, Score lastLayerScore)
-            throws NotEnoughBudgetException {
+    public Score buildTree(Title[] titles, int budgetLeft, Score lastLayerScore) {
         // Check for budget
         if (budgetLeft < 1)
-            throw new NotEnoughBudgetException();
+            return new Score();
 
         Score bestScore = new Score();
         if (titles.length == 1) {
@@ -52,24 +51,18 @@ public class TeamBuilder {
             for (Employee employee : employeeMap.get(titles[0])) {
                 // Check if has enough budget
                 if (budgetLeft >= employee.getSalary()) {
-                    try {
-                        Score nodeScore = buildTree(nextTitles,
-                                budgetLeft - employee.getSalary(),
-                                lastLayerScore.copy().addScore(employee));
-                        if (nodeScore.isBetter(bestScore))
-                            bestScore = nodeScore;
-                    } catch (NotEnoughBudgetException e) {
-                        continue;
-                    }
+                    Score nodeScore = buildTree(nextTitles,
+                            budgetLeft - employee.getSalary(),
+                            lastLayerScore.copy().addScore(employee));
+                    if (nodeScore.isBetter(bestScore))
+                        bestScore = nodeScore;
                 }
             }
         }
-        if (bestScore.isZero())
-            throw new NotEnoughBudgetException();
         return bestScore;
     }
 
-    public Score buildTree() throws NotEnoughBudgetException {
-        return buildTree(Title.values(), budget, new Score(0, 0, 0));
+    public Score buildTree() {
+        return buildTree(Title.values(), budget, new Score());
     }
 }
