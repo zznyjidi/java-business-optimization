@@ -21,15 +21,16 @@ public class Score {
         ensureScore();
     }
 
-    public void addScore(int coverage, int speed, int fulfilment) {
+    public Score addScore(int coverage, int speed, int fulfilment) {
         coverage += coverage;
         speed += speed;
         fulfilment += fulfilment;
         ensureScore();
+        return this;
     }
 
-    public void addScore(Employee employee) {
-        addScore(employee.getCoverage(), employee.getSpeed(), employee.getFulfilment());
+    public Score addScore(Employee employee) {
+        return addScore(employee.getCoverage(), employee.getSpeed(), employee.getFulfilment());
     }
 
     public void ensureScore() {
