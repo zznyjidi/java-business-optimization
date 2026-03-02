@@ -3,6 +3,8 @@ package jobs;
 import java.util.ArrayList;
 import java.util.List;
 
+import employee.Employee;
+
 public class EmployeeTreeNode {
     Employee employee;
 

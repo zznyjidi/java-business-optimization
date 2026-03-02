@@ -1,4 +1,4 @@
-package jobs;
+package employee;
 
 public enum Title {
     SoftwareEngineer,

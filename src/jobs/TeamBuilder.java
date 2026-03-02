@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import employee.Employee;
+import employee.Title;
 import filters.EmployeeFilter;
 
 public class TeamBuilder {
@@ -21,7 +23,7 @@ public class TeamBuilder {
         }
         for (Employee employee : employees)
             if (employee.getSalary() < budget)
-                employeeMap.get(employee.jobTitle).add(employee);
+                employeeMap.get(employee.getJobTitle()).add(employee);
     }
 
     public void applyFilter(EmployeeFilter filter) {
@@ -42,16 +44,17 @@ public class TeamBuilder {
         List<Integer> result = new ArrayList<>();
         for (Employee employee : employeeMap.get(titles[0])) {
             // Check if has enough budget
-            if (node.currentBudgetLeft >= employee.salary) {
+            if (node.currentBudgetLeft >= employee.getSalary()) {
                 // Create node for valid branch in next layer
-                EmployeeTreeNode newNode = new EmployeeTreeNode(employee, (node.currentBudgetLeft - employee.salary));
+                EmployeeTreeNode newNode = new EmployeeTreeNode(employee,
+                        (node.currentBudgetLeft - employee.getSalary()));
                 node.subNodes.add(newNode);
                 // Check if next layer is the last layer
                 if (titles.length > 1)
                     result.add(buildTree(nextTitles, newNode));
                 else {
                     newNode.isLastLayer = true;
-                    newNode.lowestBudget = employee.salary;
+                    newNode.lowestBudget = employee.getSalary();
                     result.add(newNode.lowestBudget);
                 }
             }
@@ -70,7 +73,7 @@ public class TeamBuilder {
 
         // Calculate lowest budget in branches
         if (node.employee != null)
-            node.lowestBudget = node.employee.salary + min;
+            node.lowestBudget = node.employee.getSalary() + min;
 
         // Check if is dead end
         if (!hasValid) {

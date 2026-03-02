@@ -2,6 +2,10 @@ package jobs;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import employee.Employee;
+import employee.ReadFile;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 

@@ -1,6 +1,6 @@
 package score;
 
-import jobs.Employee;
+import employee.Employee;
 
 public class Score {
     public static int SPEED_MULTIPLIER = 10000;

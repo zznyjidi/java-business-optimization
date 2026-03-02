@@ -2,9 +2,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import employee.Employee;
+import employee.ReadFile;
 import filters.FilterReplacements;
-import jobs.Employee;
-import jobs.ReadFile;
 import jobs.TeamBuilder;
 
 public class App {
