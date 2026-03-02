@@ -9,12 +9,11 @@ import java.util.Map;
 import employee.Employee;
 import employee.Title;
 import filters.EmployeeFilter;
+import score.Score;
 
 public class TeamBuilder {
     Map<Title, List<Employee>> employeeMap = new HashMap<>();
     int budget = 0;
-
-    List<EmployeeTreeNode> rootNodes = new ArrayList<>();
 
     public TeamBuilder(List<Employee> employees, int budget) {
         this.budget = budget;
@@ -30,64 +29,47 @@ public class TeamBuilder {
         employeeMap = filter.filterEmployee(employeeMap);
     }
 
-    public int buildTree(Title[] titles, EmployeeTreeNode node) {
+    public Score buildTree(Title[] titles, int budgetLeft, Score lastLayerScore)
+            throws NotEnoughBudgetException {
         // Check for budget
-        if (node.currentBudgetLeft < 1)
-            return -1;
+        if (budgetLeft < 1)
+            throw new NotEnoughBudgetException();
 
-        // Title Array for next layer of tree
-        Title[] nextTitles = null;
-        if (titles.length > 1)
-            nextTitles = Arrays.copyOfRange(titles, 1, titles.length);
+        Score bestScore = new Score();
+        if (titles.length == 1) {
+            // Last Layer
+            for (Employee employee : employeeMap.get(titles[0])) {
+                if (budgetLeft > employee.getSalary()) {
+                    Score nodeScore = lastLayerScore.copy().addScore(employee);
+                    if (nodeScore.isBetter(bestScore))
+                        bestScore = nodeScore;
+                }
+            }
+        } else {
+            // Not Last Layer
+            Title[] nextTitles = Arrays.copyOfRange(titles, 1, titles.length);
 
-        // Build tree
-        List<Integer> result = new ArrayList<>();
-        for (Employee employee : employeeMap.get(titles[0])) {
-            // Check if has enough budget
-            if (node.currentBudgetLeft >= employee.getSalary()) {
-                // Create node for valid branch in next layer
-                EmployeeTreeNode newNode = new EmployeeTreeNode(employee,
-                        (node.currentBudgetLeft - employee.getSalary()));
-                node.subNodes.add(newNode);
-                // Check if next layer is the last layer
-                if (titles.length > 1)
-                    result.add(buildTree(nextTitles, newNode));
-                else {
-                    newNode.isLastLayer = true;
-                    newNode.lowestBudget = employee.getSalary();
-                    result.add(newNode.lowestBudget);
+            for (Employee employee : employeeMap.get(titles[0])) {
+                // Check if has enough budget
+                if (budgetLeft >= employee.getSalary()) {
+                    try {
+                        Score nodeScore = buildTree(nextTitles,
+                                budgetLeft - employee.getSalary(),
+                                lastLayerScore.copy().addScore(employee));
+                        if (nodeScore.isBetter(bestScore))
+                            bestScore = nodeScore;
+                    } catch (NotEnoughBudgetException e) {
+                        continue;
+                    }
                 }
             }
         }
-
-        // Find min valid cost
-        boolean hasValid = false;
-        int min = Integer.MAX_VALUE;
-        for (int cost : result) {
-            if (cost > 0) {
-                hasValid = true;
-                if (cost < min)
-                    min = cost;
-            }
-        }
-
-        // Calculate lowest budget in branches
-        if (node.employee != null)
-            node.lowestBudget = node.employee.getSalary() + min;
-
-        // Check if is dead end
-        if (!hasValid) {
-            node.isDeadEnd = true;
-            return -1;
-        }
-        return min;
+        if (bestScore.isZero())
+            throw new NotEnoughBudgetException();
+        return bestScore;
     }
 
-    public int buildTree() {
-        return buildTree(Title.values(), new EmployeeTreeNode(this.rootNodes, budget));
-    }
-
-    public List<EmployeeTreeNode> getRootNodes() {
-        return rootNodes;
+    public Score buildTree() throws NotEnoughBudgetException {
+        return buildTree(Title.values(), budget, new Score(0, 0, 0));
     }
 }

@@ -14,6 +14,9 @@ public class Score {
     int speed = 0;
     int fulfilment = 0;
 
+    public Score() {
+    }
+
     public Score(int coverage, int speed, int fulfilment) {
         this.coverage = coverage;
         this.speed = speed;
@@ -22,9 +25,9 @@ public class Score {
     }
 
     public Score addScore(int coverage, int speed, int fulfilment) {
-        coverage += coverage;
-        speed += speed;
-        fulfilment += fulfilment;
+        this.coverage += coverage;
+        this.speed += speed;
+        this.fulfilment += fulfilment;
         ensureScore();
         return this;
     }
@@ -60,5 +63,18 @@ public class Score {
 
     public Score copy() {
         return new Score(coverage, speed, fulfilment);
+    }
+
+    public boolean isBetter(Score other) {
+        return getScore() > other.getScore();
+    }
+
+    public boolean isZero() {
+        return (coverage == 0) && (speed == 0) && (fulfilment == 0);
+    }
+
+    @Override
+    public String toString() {
+        return "Score [coverage=" + coverage + ", speed=" + speed + ", fulfilment=" + fulfilment + "]";
     }
 }
