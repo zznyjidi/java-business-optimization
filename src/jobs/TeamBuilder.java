@@ -29,7 +29,7 @@ public class TeamBuilder {
         employeeMap = filter.filterEmployee(employeeMap);
     }
 
-    public Score buildTree(Title[] titles, int budgetLeft, Score lastLayerScore) {
+    public Score buildTeam(Title[] titles, int budgetLeft, Score lastLayerScore) {
         // Check for budget
         if (budgetLeft < 1)
             return new Score();
@@ -51,7 +51,7 @@ public class TeamBuilder {
             for (Employee employee : employeeMap.get(titles[0])) {
                 // Check if has enough budget
                 if (budgetLeft >= employee.getSalary()) {
-                    Score nodeScore = buildTree(nextTitles,
+                    Score nodeScore = buildTeam(nextTitles,
                             budgetLeft - employee.getSalary(),
                             lastLayerScore.copy().addScore(employee));
                     if (nodeScore.isBetter(bestScore))
@@ -62,7 +62,7 @@ public class TeamBuilder {
         return bestScore;
     }
 
-    public Score buildTree() {
-        return buildTree(Title.values(), budget, new Score());
+    public Score buildTeam() {
+        return buildTeam(Title.values(), budget, new Score());
     }
 }
