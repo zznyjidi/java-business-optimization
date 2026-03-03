@@ -23,7 +23,6 @@ public class Score {
         this.speed = speed;
         this.fulfilment = fulfilment;
         this.budget = budget;
-        ensureScore();
     }
 
     public Score addScore(int coverage, int speed, int fulfilment, int budget) {
@@ -31,7 +30,6 @@ public class Score {
         this.speed += speed;
         this.fulfilment += fulfilment;
         this.budget += budget;
-        ensureScore();
         return this;
     }
 
@@ -39,17 +37,19 @@ public class Score {
         return addScore(employee.getCoverage(), employee.getSpeed(), employee.getFulfilment(), employee.getSalary());
     }
 
-    public void ensureScore() {
+    public Score ensureScore() {
         if (coverage > 100)
             coverage = 100;
         if (speed > 100)
             speed = 100;
+        return this;
     }
 
     public int getScore() {
-        return (fulfilment - 1)
-                + ((speed - 1) * SPEED_MULTIPLIER)
-                + ((coverage - 1) * COVERAGE_MULTIPLIER);
+        Score copied = this.copy().ensureScore();
+        return (copied.fulfilment - 1)
+                + ((copied.speed - 1) * SPEED_MULTIPLIER)
+                + ((copied.coverage - 1) * COVERAGE_MULTIPLIER);
     }
 
     public static Score fromScore(int score, int budget) {
