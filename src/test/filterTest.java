@@ -1,6 +1,6 @@
 package test;
 
-import jobs.Employee;
+import employee.Employee;
 
 public class filterTest {
     public static void main(String[] args) {

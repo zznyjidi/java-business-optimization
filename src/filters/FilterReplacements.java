@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import jobs.Employee;
-import jobs.Title;
+import employee.Employee;
+import employee.Title;
 
 public class FilterReplacements implements EmployeeFilter {
     public Map<Title, List<Employee>> filterEmployee(Map<Title, List<Employee>> employeeMap) {
